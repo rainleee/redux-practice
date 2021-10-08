@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.1/redux.min.js"
+      integrity="sha512-F21iSaHGX/3NFz5SuwoH6pGhTPxtoJoWWULqQVPQPtLm7nbK5r8vRSSSYy3Aj+H39cVrVm4+3ikGoVD1AjE0sQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      .container {
+        border: 5px solid black;
+        padding: 10px;
+      }
+    </style>
+    <div id="red">red</div>
+
+    <script>
+      function reducer(state = { color: 'yellow' }, action) {
+        // dispatch()를 store에서 호출하면 reducer의 action으로 인자값이 들어오게 되어있다.
+        // console.log('reducer action');
+        // console.log(action);
+        if (action.type === 'CHANGE_COLOR') {
+          const afterState = { ...state, color: action.color };
+          return afterState;
+        }
+        return state;
+      }
+
+      const store = Redux.createStore(reducer);
+      //   console.log(store.getState());
+      function red() {
+        const state = store.getState();
+        console.log(state);
+        document.querySelector('#red').innerHTML = `
+            <div class="container" id="component_red" style="background-color:${state.color}">
+                <h1>red</h1>
+                <input type="button" value="fire" onclick="
+                    store.dispatch({type:'CHANGE_COLOR', color:'red'});
+                ">
+            </div>
+          `;
+      }
+      store.subscribe(red);
+      red();
+    </script>
+  </body>
+</html>
